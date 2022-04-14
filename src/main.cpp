@@ -47,6 +47,7 @@ public:
 	glm::vec3 pos, vel;
 	float rad, rot;
 	bool destroying = false;
+	bool destroyed = false;
 	glm::mat4 matrix = mat4(1);
 
 	gameObject()
@@ -55,7 +56,8 @@ public:
 		pos = glm::vec3(-25 + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(25-(-25)))), 0, -25 + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(25-(-25)))));
 		rot = static_cast <float> (rand()) / static_cast <float> (1); // y-axis
 		//vel = vec3(0, 0, 0); // random x and y velocity
-		vel = vec3(static_cast <float> (rand()) / static_cast <float> (1) * 0.00000075, 0, static_cast <float> (rand()) / static_cast <float> (1) * 0.00000075); // random x and y velocity
+		//vel = vec3(static_cast <float> (rand()) / static_cast <float> (1) * 0.00000075, 0, static_cast <float> (rand()) / static_cast <float> (1) * 0.00000075); // random x and y velocity
+		vel = vec3(static_cast <float> (rand()) / static_cast <float> (1) * 0.00000000075, 0, static_cast <float> (rand()) / static_cast <float> (1) * 0.00000000075); // random x and y velocity
 		rad = 0.3;
 	}
 
@@ -63,13 +65,23 @@ public:
 		float d = distance(pos.x, pos.y, pos.z, other.pos.x, other.pos.y, other.pos.z);
 		if (d > rad + other.rad)
 			return false;
-		else
+		else if (d <= rad + other.rad && !other.destroying) {
+			vel.x = -vel.x;
+			vel.z = -vel.z;
 			return true;
+		}
+		else
+			return false;
 	}
 
 	void destroy(double ftime)
 	{
-		rad -= 0.01 * ftime;
+		rad -= 0.001 * ftime;
+		if (rad <= 0)
+		{
+			//destroying = false;
+			destroyed = true;
+		}
 	}
 
 	void move(double ftime)
@@ -88,15 +100,19 @@ public:
 			destroy(ftime);
 		else
 		{
-			/*for (int i = 0; i < others.size(); i++)
+			for (int i = 0; i < others.size(); i++)
 			{
 				if (i == index)
 					continue;
-				if (isColliding(others.at(i)))
-					continue; // collision detection resolution
-			}*/
-			move(ftime);
+				else if (isColliding(others.at(i)))
+					continue;
+			}
 		}
+		if (pos.x > 12.5 || pos.x < -12.5)
+			vel.x = -vel.x;
+		if (pos.z > 12.5 || pos.z < -12.5)
+			vel.z = -vel.z;	
+		move(ftime);
 	}
 };
 
@@ -120,8 +136,10 @@ public:
 		float d = distance(pos.x, pos.y, pos.z, other.pos.x, other.pos.y, other.pos.z);
 		if (d > rad + other.rad)
 			return false;
-		else
+		else if (d <= rad + other.rad && !other.destroying)
 			return true;
+		else
+			return false;
 	}
 
 	glm::mat4 process(double ftime)
@@ -161,6 +179,7 @@ public:
 
 camera mycam;
 
+
 class gameManager
 {
 public:
@@ -188,16 +207,27 @@ public:
 
 	void process(double ftime)
 	{
+		vector <int> destroyList; 
 		for (int i = 0; i < objects.size(); i++)
 		{
-			/*if (mycam.isColliding(objects.at(i))) // CHECK COLLISION W/ PLAYER
+			if (mycam.isColliding(objects.at(i)) && !objects.at(i).destroying) // CHECK COLLISION W/ PLAYER
 			{
 				objects.at(i).destroying = true;
 				score++;
 				cout << "OBJECTS DESTROYED: " + score << endl;
-			}*/
+			}
+			if (objects.at(i).destroyed) // DESTROY OBJECT
+			{
+				destroyList.push_back(i);
+			}
 			objects.at(i).process(objects, i, ftime); // CHECK COLLISION W/ GAME OBJECTS
-
+		}
+		
+		// destroy list
+		for (int i = objects.size() - 1; i >= 0; i--)
+		{
+			objects.erase(objects.begin() + i);
+			count--;
 		}
 
 		if (count < 15)
