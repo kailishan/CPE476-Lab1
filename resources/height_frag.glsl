@@ -17,8 +17,8 @@ void main()
 
 	//vec3 heightcolor = texture(tex, texcoords).rgb;
 	//heightcolor.r = 0.1 + heightcolor.r*0.9;
-	//color.rgb = texture(tex2, texcoords*50).rgb * heightcolor.r;
-	color.rgb = vec3(0,1,0);
+	color.rgb = texture(tex2, texcoords*50).rgb;
+	//color.rgb = vec3(0,1,0);
 	color.a=1;
 
 	/*float len = length(vertex_pos.xz+campos.xz);
