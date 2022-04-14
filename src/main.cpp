@@ -45,10 +45,11 @@ public:
 
 	glm::vec3 pos, rot;
 	float rad;
+	bool destroying = false;
 
 	gameObject()
 	{
-		pos = glm::vec3(0, 0, 0);
+		pos = glm::vec3(rand() % 25 - 12, 0, rand() % 25 - 12);
 		rot = glm::vec3(0, 0, 0);
 		rad = 0.0;
 	}
@@ -60,7 +61,65 @@ public:
 		else
 			return true;
 	}
+
+	void destroy()
+	{
+
+
+	}
+
+	void move()
+	{
+
+	}
+
+	void process()
+	{
+		if (destroying)
+			destroy();
+		else
+			move();
+	}
 };
+
+
+class gameManager
+{
+public:
+	int maxObj = 15;
+	int count = 0;
+	int bound = 12.5; // min/max x/y
+	vector <gameObject> objects;
+
+	gameManager()
+	{
+		while (count <= maxObj)
+		{
+			spawnGameObject();
+		}
+		srand(glfwGetTime());
+	}
+
+	void spawnGameObject()
+	{
+		gameObject object = gameObject();
+		objects.push_back(object);
+		count++;
+	}
+
+	void process(double ftime)
+	{
+		for (int i = 0; i < objects.size(); i++)
+		{
+			objects.at(i).process();
+		}
+
+		if (count < 15)
+			spawnGameObject();
+	}
+};
+
+gameManager myManager;
 
 
 class camera
@@ -111,38 +170,6 @@ public:
 
 camera mycam;
 
-
-class gameManager
-{
-public:
-	int maxObj = 15;
-	int count = 0;
-	int bound = 12.5; // min/max x/y
-	vector <gameObject> objects;
-
-	gameManager()
-	{
-		while (count <= maxObj)
-		{
-			spawnGameObject();
-		}
-	}
-
-	void spawnGameObject()
-	{
-		gameObject object = gameObject();
-		objects.push_back(object);
-		count++;
-	}
-
-	void process(double ftime)
-	{
-		if (count < 15)
-			spawnGameObject();
-	}
-};
-
-gameManager myManager;
 
 class Application : public EventCallbacks
 {
@@ -435,6 +462,7 @@ public:
 	void render()
 	{
 		double frametime = get_last_elapsed_time();
+		myManager.process(frametime);
 
 		// Get current frame buffer size.
 		int width, height;
@@ -485,7 +513,16 @@ public:
 		glUniform3fv(prog->getUniform("campos"), 1, &mycam.pos[0]);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, Texture);
-		shape->draw(prog,FALSE);
+
+		for (int i = 0; i < myManager.objects.size(); i++)
+		{
+			vec3 currPos = myManager.objects.at(i).pos;
+			M = glm::translate(glm::mat4(1.0f), currPos);
+			glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
+			shape->draw(prog, FALSE);
+		}
+
+		//shape->draw(prog,FALSE);
 
 		heightshader->bind();
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
