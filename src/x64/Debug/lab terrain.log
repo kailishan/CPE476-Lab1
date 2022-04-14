@@ -4,9 +4,17 @@ C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(59,1): warning C4305: '=': 
 C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(72,15): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
 C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(133,15): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(137,16): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(170,14): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(176,20): warning C4244: 'argument': conversion from 'double' to 'unsigned int', possible loss of data
-C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(334,1): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(531,12): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(534,1): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(169,14): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(175,20): warning C4244: 'argument': conversion from 'double' to 'unsigned int', possible loss of data
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(333,1): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(530,12): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(533,1): warning C4305: 'initializing': truncation from 'double' to 'float'
+  LINK : C:\Users\garre\Desktop\CSC 476\Lab1REAL\x64\Debug\lab terrain.exe not found or not built by the last incremental link; performing full link
+glad.obj : warning LNK4099: PDB 'vc143.pdb' was not found with 'glad.obj' or at 'C:\Users\garre\Desktop\CSC 476\Lab1REAL\x64\Debug\vc143.pdb'; linking object as if no debug info
+GLSL.obj : warning LNK4099: PDB 'vc143.pdb' was not found with 'GLSL.obj' or at 'C:\Users\garre\Desktop\CSC 476\Lab1REAL\x64\Debug\vc143.pdb'; linking object as if no debug info
+MatrixStack.obj : warning LNK4099: PDB 'vc143.pdb' was not found with 'MatrixStack.obj' or at 'C:\Users\garre\Desktop\CSC 476\Lab1REAL\x64\Debug\vc143.pdb'; linking object as if no debug info
+Program.obj : warning LNK4099: PDB 'vc143.pdb' was not found with 'Program.obj' or at 'C:\Users\garre\Desktop\CSC 476\Lab1REAL\x64\Debug\vc143.pdb'; linking object as if no debug info
+Shape.obj : warning LNK4099: PDB 'vc143.pdb' was not found with 'Shape.obj' or at 'C:\Users\garre\Desktop\CSC 476\Lab1REAL\x64\Debug\vc143.pdb'; linking object as if no debug info
+WindowManager.obj : warning LNK4099: PDB 'vc143.pdb' was not found with 'WindowManager.obj' or at 'C:\Users\garre\Desktop\CSC 476\Lab1REAL\x64\Debug\vc143.pdb'; linking object as if no debug info
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
   lab terrain.vcxproj -> C:\Users\garre\Desktop\CSC 476\Lab1REAL\x64\Debug\lab terrain.exe
