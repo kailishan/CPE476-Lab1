@@ -53,12 +53,12 @@ public:
 	gameObject()
 	{
 		//pos = glm::vec3(rand() % 25 - 12, 0, rand() % 25 - 12);
-		pos = glm::vec3(-25 + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(25-(-25)))), 0, -25 + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(25-(-25)))));
+		pos = glm::vec3(-12.5 + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(12.5-(-12.5)))), 0, -12.5 + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(12.5-(-12.5)))));
 		rot = static_cast <float> (rand()) / static_cast <float> (1); // y-axis
 		//vel = vec3(0, 0, 0); // random x and y velocity
 		vel = vec3(static_cast <float> (rand()) / static_cast <float> (1) * 0.000001, 0, static_cast <float> (rand()) / static_cast <float> (1) * 0.000001); // random x and y velocity
 		//vel = vec3(static_cast <float> (rand()) / static_cast <float> (1) * 0.00000000075, 0, static_cast <float> (rand()) / static_cast <float> (1) * 0.00000000075); // random x and y velocity
-		rad = 0.3;
+		rad = 1.0;
 		cout << "x: " << pos.x << " z: " << pos.z << endl;
 	}
 
@@ -79,18 +79,26 @@ public:
 
 	void destroy(double ftime)
 	{
-		rad -= 0.0001;
+		rad -= 0.01;
+		vel.x = 0;
+		vel.y = 0;
 		if (rad <= 0)
 		{
 			//destroying = false;
-			vel.x = 0;
-			vel.y = 0;
 			destroyed = true;
 		}
 	}
 
 	void move(double ftime)
 	{
+		if (pos.x > 6.75 && vel.x > 0)
+			vel.x = -vel.x;
+		if (pos.x < -6.75 && vel.x < 0)
+			vel.x = -vel.x;
+		if (pos.z > 6.75 && vel.z > 0)
+			vel.z = -vel.z;
+		if (pos.z < -6.75 && vel.z < 0)
+			vel.z = -vel.z;
 		glm::mat4 R = glm::rotate(glm::mat4(1), rot, glm::vec3(0, 1, 0));
 		vec4 dir = vec4(vel, 1);
 		dir = dir*R;
@@ -117,14 +125,6 @@ public:
 					continue;
 			}
 		}
-		if (pos.x > 12.5 && vel.x > 0)
-			vel.x = -vel.x;
-		if (pos.x < -12.5 && vel.x < 0)
-			vel.x = -vel.x;
-		if (pos.z > 12.5 && vel.z > 0)
-			vel.z = -vel.z;	
-		if (pos.z < -12.5 && vel.z < 0)
-			vel.z = -vel.z;
 		move(ftime);
 	}
 };
@@ -136,7 +136,7 @@ public:
 	glm::vec3 pos, rot;
 	int w, a, s, d;
 	GLFWwindow* window;
-	float rad = 0.3f;
+	float rad = 1.0f;
 	int score = 0;
 
 	camera()
@@ -154,6 +154,7 @@ public:
 		{
 			score++;
 			cout << "OBJECTS DESTROYED: " << score << endl;
+			other.destroying = true;
 			return true;
 		}
 		else
@@ -164,6 +165,7 @@ public:
 	{
 		float speed = 0;
 		double xpos, ypos;
+
 		if (w == 1 || a == 1)
 		{
 			speed = 10 * ftime;
@@ -173,28 +175,31 @@ public:
 			speed = -10 * ftime;
 		}
 		float yangle = 0;
-		/*if (a == 1)
-			yangle = -3*ftime;
-		else if(d==1)
-			yangle = 3*ftime;
-		*/
+
 		glfwGetCursorPos(window, &xpos, &ypos);
 		xpos = xpos * 0.005;
 		ypos = ypos * 0.005;
+
 		glm::mat4 R = glm::rotate(glm::mat4(1), (float)xpos, glm::vec3(0, 1, 0));
 		glm::mat4 R2 = glm::rotate(glm::mat4(1), (float)ypos, glm::vec3(1, 0, 0));
+
 		vec4 dir = vec4(0, 0, 0, 1);
+
 		if (w == 1 || s == 1)
 			dir = glm::vec4(0, 0, speed, 1);
 		else if (a == 1 || d == 1)
 			dir = glm::vec4(speed, 0, 0, 1);
+
 		dir = dir * R;
+
 		if (pos.x + dir.x > 12.5 || pos.x + dir.x < -12.5 || pos.z + dir.z > 12.5 || pos.z + dir.z < -12.5)
 			pos = pos;
 		else
 			pos += glm::vec3(dir.x, dir.y, dir.z);
-		cout << "x: " << pos.x << " z: " << pos.z << endl;
+
+		//cout << "x: " << pos.x << " z: " << pos.z << endl;
 		glm::mat4 T = glm::translate(glm::mat4(1), pos);
+
 		return R2 * R * T;
 	}
 };
@@ -209,12 +214,13 @@ public:
 	int count = 0;
 	int bound = 12.5; // min/max x/y
 	int score = 0;
+	int framecount = 0;
 	vector <gameObject> objects;
 
 	gameManager()
 	{
 		srand(glfwGetTime());
-		while (count <= maxObj)
+		while (count <= 10)
 		{
 			spawnGameObject();
 		}
@@ -241,7 +247,8 @@ public:
 			objects.at(i).process(objects, i, ftime); // CHECK COLLISION W/ GAME OBJECTS
 			if (objects.at(i).destroyed) // DESTROY OBJECT
 			{
-				destroyList.push_back(i);
+				if (std::find(destroyList.begin(), destroyList.end(), i) != destroyList.end())
+					destroyList.push_back(i);
 			}
 		}
 		
@@ -254,8 +261,10 @@ public:
 			count--;
 		}
 
-		//if (count < 15)
-		//	spawnGameObject();
+		framecount++;
+		if (count < 15 && framecount > 300)
+			framecount = 0;
+			spawnGameObject();
 	}
 };
 
@@ -611,7 +620,7 @@ public:
 			vec3 currPos = currObj.pos;
 			S = glm::scale(glm::mat4(1.0f), glm::vec3(currObj.rad));
 			T = glm::translate(glm::mat4(1.0f), currPos);
-			M = S * myManager.objects.at(i).matrix;
+			M = myManager.objects.at(i).matrix * S;
 			glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
 			shape->draw(prog, FALSE);
 		}
