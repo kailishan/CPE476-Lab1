@@ -91,9 +91,9 @@ public:
 			yangle = 3*ftime;
 		*/
 		glfwGetCursorPos(window, &xpos, &ypos);
-		ypos = ypos * 0.05;
+		xpos = xpos * 0.005;
 		rot.y += yangle;
-		glm::mat4 R = glm::rotate(glm::mat4(1), (float)ypos, glm::vec3(0, 1, 0));
+		glm::mat4 R = glm::rotate(glm::mat4(1), (float)xpos, glm::vec3(0, 1, 0));
 		vec4 dir = vec4(0, 0, 0, 1);
 		if (w == 1 || s == 1)
 			dir = glm::vec4(0, 0, speed,1);
