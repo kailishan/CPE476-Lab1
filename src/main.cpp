@@ -52,10 +52,10 @@ public:
 	gameObject()
 	{
 		//pos = glm::vec3(rand() % 25 - 12, 0, rand() % 25 - 12);
-		pos = glm::vec3(rand() % 50 - 25, 0, rand() % 50 - 2);
+		pos = glm::vec3(-25 + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(25-(-25)))), 0, -25 + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(25-(-25)))));
 		rot = static_cast <float> (rand()) / static_cast <float> (1); // y-axis
-		vel = vec3(0.01, 0, 0.01); // random x and y velocity
-		//vel = vec3(static_cast <float> (rand()) / static_cast <float> (1) * .5, 0, static_cast <float> (rand()) / static_cast <float> (1) * .5); // random x and y velocity
+		//vel = vec3(0, 0, 0); // random x and y velocity
+		vel = vec3(static_cast <float> (rand()) / static_cast <float> (1) * 0.00000075, 0, static_cast <float> (rand()) / static_cast <float> (1) * 0.00000075); // random x and y velocity
 		rad = 0.3;
 	}
 
