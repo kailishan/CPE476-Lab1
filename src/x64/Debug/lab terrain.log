@@ -1,7 +1,7 @@
 ﻿  main.cpp
 C:\Users\KALE\Documents\471\lab1\src\main.cpp(36,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 C:\Users\KALE\Documents\471\lab1\src\main.cpp(61,1): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\KALE\Documents\471\lab1\src\main.cpp(79,16): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\KALE\Documents\471\lab1\src\main.cpp(79,19): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
 C:\Users\KALE\Documents\471\lab1\src\main.cpp(151,15): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 C:\Users\KALE\Documents\471\lab1\src\main.cpp(155,16): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 C:\Users\KALE\Documents\471\lab1\src\main.cpp(188,14): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
