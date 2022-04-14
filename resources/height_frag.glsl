@@ -11,20 +11,19 @@ uniform vec3 campos;
 
 void main()
 {
-vec2 texcoords=vertex_tex;
-float t=1./100.;
-texcoords -= vec2(camoff.x,camoff.z)*t;
+	vec2 texcoords=vertex_tex;
+	float t=1./100.;
+	//texcoords -= vec2(camoff.x,camoff.z)*t;
 
-vec3 heightcolor = texture(tex, texcoords).rgb;
-heightcolor.r = 0.1 + heightcolor.r*0.9;
-color.rgb = texture(tex2, texcoords*50).rgb * heightcolor.r;
-color.a=1;
+	//vec3 heightcolor = texture(tex, texcoords).rgb;
+	//heightcolor.r = 0.1 + heightcolor.r*0.9;
+	//color.rgb = texture(tex2, texcoords*50).rgb * heightcolor.r;
+	color.rgb = vec3(0,1,0);
+	color.a=1;
 
-float len = length(vertex_pos.xz+campos.xz);
-len-=41;
-len/=8.;
-len=clamp(len,0,1);
-color.a=1-len;
-
-
+	/*float len = length(vertex_pos.xz+campos.xz);
+	len-=41;
+	len/=8.;
+	len=clamp(len,0,1);
+	color.a=1-len;*/
 }

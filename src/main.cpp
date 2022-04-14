@@ -203,7 +203,7 @@ public:
 		glfwGetFramebufferSize(window, &width, &height);
 		glViewport(0, 0, width, height);
 	}
-#define MESHSIZE 100
+#define MESHSIZE 25
 	void init_mesh()
 	{
 		//generate the VAO
@@ -431,6 +431,7 @@ public:
 		glm::mat4 S = glm::scale(glm::mat4(1.0f), glm::vec3(0.8f, 0.8f, 0.8f));
 
 		M =  TransZ * RotateY * RotateX * S;
+		M = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 
 		// Draw the box using GLSL.
 		prog->bind();
@@ -445,10 +446,11 @@ public:
 		glBindTexture(GL_TEXTURE_2D, Texture);
 		shape->draw(prog,FALSE);
 
-		/*heightshader->bind();
+		heightshader->bind();
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glm::mat4 TransY = glm::translate(glm::mat4(1.0f), glm::vec3(-50.0f, -3.0f, -50));
 		M = TransY;
+		M = glm::translate(glm::mat4(1.0f), glm::vec3(-12.5f, -3.0f, -12.5f));
 		glUniformMatrix4fv(heightshader->getUniform("M"), 1, GL_FALSE, &M[0][0]);
 		glUniformMatrix4fv(heightshader->getUniform("P"), 1, GL_FALSE, &P[0][0]);
 		glUniformMatrix4fv(heightshader->getUniform("V"), 1, GL_FALSE, &V[0][0]);
@@ -456,8 +458,8 @@ public:
 		
 		vec3 offset = mycam.pos;
 		offset.y = 0;
-		offset.x = (int)offset.x;
-		offset.z = (int)offset.z;
+		offset.x = 0; // (int)offset.x;
+		offset.z = 0; // (int)offset.z;
 		glUniform3fv(heightshader->getUniform("camoff"), 1, &offset[0]);
 		glUniform3fv(heightshader->getUniform("campos"), 1, &mycam.pos[0]);
 		glBindVertexArray(VertexArrayID);
@@ -468,7 +470,7 @@ public:
 		glBindTexture(GL_TEXTURE_2D, Texture);
 		glDrawElements(GL_TRIANGLES, MESHSIZE*MESHSIZE*6, GL_UNSIGNED_SHORT, (void*)0);
 
-		heightshader->unbind();*/
+		heightshader->unbind();
 
 	}
 
