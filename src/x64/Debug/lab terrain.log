@@ -1,8 +1,1 @@
-﻿  main.cpp
-C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(36,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(81,14): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(85,15): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(233,1): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(429,12): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(432,1): warning C4305: 'initializing': truncation from 'double' to 'float'
-  lab terrain.vcxproj -> C:\Users\garre\Desktop\CSC 476\Lab1REAL\x64\Debug\lab terrain.exe
+﻿  lab terrain.vcxproj -> C:\Users\KALE\Documents\471\lab1\x64\Debug\lab terrain.exe
