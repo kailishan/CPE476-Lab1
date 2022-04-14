@@ -117,13 +117,13 @@ public:
 					continue;
 			}
 		}
-		if (pos.x > 25 && vel.x > 0)
+		if (pos.x > 12.5 && vel.x > 0)
 			vel.x = -vel.x;
-		if (pos.x < -25 && vel.x < 0)
+		if (pos.x < -12.5 && vel.x < 0)
 			vel.x = -vel.x;
-		if (pos.z > 25 && vel.z > 0)
+		if (pos.z > 12.5 && vel.z > 0)
 			vel.z = -vel.z;	
-		if (pos.z < -25 && vel.z < 0)
+		if (pos.z < -12.5 && vel.z < 0)
 			vel.z = -vel.z;
 		move(ftime);
 	}
@@ -189,7 +189,11 @@ public:
 		else if (a == 1 || d == 1)
 			dir = glm::vec4(speed, 0, 0, 1);
 		dir = dir * R;
-		pos += glm::vec3(dir.x, dir.y, dir.z);
+		if (pos.x + dir.x > 12.5 || pos.x + dir.x < -12.5 || pos.z + dir.z > 12.5 || pos.z + dir.z < -12.5)
+			pos = pos;
+		else
+			pos += glm::vec3(dir.x, dir.y, dir.z);
+		cout << "x: " << pos.x << " z: " << pos.z << endl;
 		glm::mat4 T = glm::translate(glm::mat4(1), pos);
 		return R2 * R * T;
 	}

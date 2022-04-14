@@ -1,13 +1,13 @@
 ﻿  main.cpp
-C:\Users\KALE\Documents\471\lab1\src\main.cpp(36,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\KALE\Documents\471\lab1\src\main.cpp(61,1): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\KALE\Documents\471\lab1\src\main.cpp(81,1): warning C4305: '-=': truncation from 'double' to 'float'
-C:\Users\KALE\Documents\471\lab1\src\main.cpp(165,15): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\KALE\Documents\471\lab1\src\main.cpp(169,16): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\KALE\Documents\471\lab1\src\main.cpp(202,14): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\KALE\Documents\471\lab1\src\main.cpp(208,20): warning C4244: 'argument': conversion from 'double' to 'unsigned int', possible loss of data
-C:\Users\KALE\Documents\471\lab1\src\main.cpp(243,1): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\KALE\Documents\471\lab1\src\main.cpp(379,1): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\KALE\Documents\471\lab1\src\main.cpp(576,12): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-C:\Users\KALE\Documents\471\lab1\src\main.cpp(579,1): warning C4305: 'initializing': truncation from 'double' to 'float'
-  lab terrain.vcxproj -> C:\Users\KALE\Documents\471\lab1\x64\Debug\lab terrain.exe
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(36,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(61,1): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(82,1): warning C4305: '-=': truncation from 'double' to 'float'
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(169,15): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(173,16): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(210,14): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(216,20): warning C4244: 'argument': conversion from 'double' to 'unsigned int', possible loss of data
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(251,1): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(387,1): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(584,12): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(587,1): warning C4305: 'initializing': truncation from 'double' to 'float'
+  lab terrain.vcxproj -> C:\Users\garre\Desktop\CSC 476\Lab1REAL\x64\Debug\lab terrain.exe
