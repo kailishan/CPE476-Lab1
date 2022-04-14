@@ -104,7 +104,7 @@ public:
 		dir = dir*R;
 		pos += glm::vec3(dir.x, dir.y, dir.z);
 		glm::mat4 T = glm::translate(glm::mat4(1), pos);
-		matrix = R*T;
+		matrix = T*R;
 	}
 
 	void process(vector <gameObject> others, int index, double ftime)
@@ -437,7 +437,7 @@ public:
 		// Initialize mesh.
 		shape = make_shared<Shape>();
 		//shape->loadMesh(resourceDirectory + "/t800.obj");
-		shape->loadMesh(resourceDirectory + "/Cat_Low.obj");
+		shape->loadMesh(resourceDirectory + "/sphere.obj");
 		shape->resize();
 		shape->init();
 
