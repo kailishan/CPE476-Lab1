@@ -66,6 +66,7 @@ class camera
 public:
 	glm::vec3 pos, rot;
 	int w, a, s, d;
+	GLFWwindow *window;
 	camera()
 	{
 		w = a = s = d = 0;
@@ -74,6 +75,7 @@ public:
 	glm::mat4 process(double ftime)
 	{
 		float speed = 0;
+		double xpos, ypos;
 		if (w == 1 || a == 1)
 		{
 			speed = 10*ftime;
@@ -88,8 +90,10 @@ public:
 		else if(d==1)
 			yangle = 3*ftime;
 		*/
+		glfwGetCursorPos(window, &xpos, &ypos);
+		ypos = ypos * 0.05;
 		rot.y += yangle;
-		glm::mat4 R = glm::rotate(glm::mat4(1), rot.y, glm::vec3(0, 1, 0));
+		glm::mat4 R = glm::rotate(glm::mat4(1), (float)ypos, glm::vec3(0, 1, 0));
 		vec4 dir = vec4(0, 0, 0, 1);
 		if (w == 1 || s == 1)
 			dir = glm::vec4(0, 0, speed,1);
@@ -484,8 +488,6 @@ int main(int argc, char **argv)
 		resourceDir = argv[1];
 	}
 
-
-
 	Application *application = new Application();
 
 	/* your main will always include a similar set up to establish your window
@@ -494,6 +496,7 @@ int main(int argc, char **argv)
 	windowManager->init(1920, 1080);
 	windowManager->setEventCallbacks(application);
 	application->windowManager = windowManager;
+	mycam.window = windowManager->getHandle();
 
 	/* This is the code that will likely change program to program as you
 		may need to initialize or set up different data and state */
