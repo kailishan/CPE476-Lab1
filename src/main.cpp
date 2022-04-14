@@ -117,6 +117,39 @@ public:
 
 camera mycam;
 
+
+class gameManager
+{
+public:
+	int maxObj = 15;
+	int count = 0;
+	int bound = 12.5; // min/max x/y
+	vector <gameObject> objects;
+
+	gameManager()
+	{
+		while (count <= maxObj)
+		{
+			spawnGameObject();
+		}
+	}
+
+	void spawnGameObject()
+	{
+		gameObject object = gameObject();
+		objects.push_back(object);
+		count++;
+	}
+
+	void process(double ftime)
+	{
+		if (count < 15)
+			spawnGameObject();
+	}
+};
+
+gameManager myManager;
+
 class Application : public EventCallbacks
 {
 
@@ -441,10 +474,11 @@ public:
 		float angle = -3.1415926/2.0;
 		glm::mat4 RotateX = glm::rotate(glm::mat4(1.0f), angle, glm::vec3(1.0f, 0.0f, 0.0f));
 		glm::mat4 TransZ = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -3 + trans));
-		glm::mat4 S = glm::scale(glm::mat4(1.0f), glm::vec3(0.8f, 0.8f, 0.8f));
-
-		M =  TransZ * RotateY * RotateX * S;
-		M = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+		
+		glm::mat4 S = glm::scale(glm::mat4(1.0f), glm::vec3(0.3f, 0.3f, 0.3f));
+		glm::mat4 T = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -1.0f, 0.0f));
+		//M =  TransZ * RotateY * RotateX * S;
+		M = S * T;
 
 		// Draw the box using GLSL.
 		prog->bind();
@@ -461,8 +495,8 @@ public:
 
 		heightshader->bind();
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		glm::mat4 TransY = glm::translate(glm::mat4(1.0f), glm::vec3(-50.0f, -3.0f, -50));
-		M = TransY;
+		//glm::mat4 TransY = glm::translate(glm::mat4(1.0f), glm::vec3(-50.0f, -3.0f, -50));
+		//M = TransY;
 		M = glm::translate(glm::mat4(1.0f), glm::vec3(-12.5f, -3.0f, -12.5f));
 		glUniformMatrix4fv(heightshader->getUniform("M"), 1, GL_FALSE, &M[0][0]);
 		glUniformMatrix4fv(heightshader->getUniform("P"), 1, GL_FALSE, &P[0][0]);
