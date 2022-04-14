@@ -59,6 +59,7 @@ public:
 		vel = vec3(static_cast <float> (rand()) / static_cast <float> (1) * 0.000001, 0, static_cast <float> (rand()) / static_cast <float> (1) * 0.000001); // random x and y velocity
 		//vel = vec3(static_cast <float> (rand()) / static_cast <float> (1) * 0.00000000075, 0, static_cast <float> (rand()) / static_cast <float> (1) * 0.00000000075); // random x and y velocity
 		rad = 0.3;
+		cout << "x: " << pos.x << " z: " << pos.z << endl;
 	}
 
 	bool isColliding(gameObject other) {
@@ -76,7 +77,7 @@ public:
 
 	void destroy(double ftime)
 	{
-		rad -= 0.0001;
+		rad -= 0.001;
 		if (rad <= 0)
 		{
 			//destroying = false;
@@ -90,8 +91,8 @@ public:
 		vec4 dir = vec4(vel, 1);
 		dir = dir*R;
 		pos += glm::vec3(dir.x, dir.y, dir.z);
-		//glm::mat4 T = glm::translate(glm::mat4(1), pos);
-		//matrix = R*T;
+		glm::mat4 T = glm::translate(glm::mat4(1), pos);
+		matrix = R*T;
 	}
 
 	void process(vector <gameObject> others, int index, double ftime)
@@ -108,10 +109,14 @@ public:
 					continue;
 			}
 		}
-		if (pos.x > 10 || pos.x < -10)
+		if (pos.x > 25 && vel.x > 0)
 			vel.x = -vel.x;
-		if (pos.z > 10 || pos.z < -10)
+		if (pos.x < -25 && vel.x < 0)
+			vel.x = -vel.x;
+		if (pos.z > 25 && vel.z > 0)
 			vel.z = -vel.z;	
+		if (pos.z < -25 && vel.z < 0)
+			vel.z = -vel.z;
 		move(ftime);
 	}
 };
@@ -123,7 +128,7 @@ public:
 	glm::vec3 pos, rot;
 	int w, a, s, d;
 	GLFWwindow* window;
-	float rad = 0.5f;
+	float rad = 0.3f;
 	int score = 0;
 
 	camera()
@@ -409,7 +414,7 @@ public:
 		// Initialize mesh.
 		shape = make_shared<Shape>();
 		//shape->loadMesh(resourceDirectory + "/t800.obj");
-		shape->loadMesh(resourceDirectory + "/sphere.obj");
+		shape->loadMesh(resourceDirectory + "/Cat_Low.obj");
 		shape->resize();
 		shape->init();
 
@@ -592,7 +597,7 @@ public:
 			vec3 currPos = currObj.pos;
 			S = glm::scale(glm::mat4(1.0f), glm::vec3(currObj.rad));
 			T = glm::translate(glm::mat4(1.0f), currPos);
-			M = S * T; //myManager.objects.at(i).matrix;
+			M = S * myManager.objects.at(i).matrix;
 			glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
 			shape->draw(prog, FALSE);
 		}
