@@ -444,6 +444,32 @@ public:
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, Texture);
 		shape->draw(prog,FALSE);
+
+		/*heightshader->bind();
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glm::mat4 TransY = glm::translate(glm::mat4(1.0f), glm::vec3(-50.0f, -3.0f, -50));
+		M = TransY;
+		glUniformMatrix4fv(heightshader->getUniform("M"), 1, GL_FALSE, &M[0][0]);
+		glUniformMatrix4fv(heightshader->getUniform("P"), 1, GL_FALSE, &P[0][0]);
+		glUniformMatrix4fv(heightshader->getUniform("V"), 1, GL_FALSE, &V[0][0]);
+		
+		
+		vec3 offset = mycam.pos;
+		offset.y = 0;
+		offset.x = (int)offset.x;
+		offset.z = (int)offset.z;
+		glUniform3fv(heightshader->getUniform("camoff"), 1, &offset[0]);
+		glUniform3fv(heightshader->getUniform("campos"), 1, &mycam.pos[0]);
+		glBindVertexArray(VertexArrayID);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBufferIDBox);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, HeightTex);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, Texture);
+		glDrawElements(GL_TRIANGLES, MESHSIZE*MESHSIZE*6, GL_UNSIGNED_SHORT, (void*)0);
+
+		heightshader->unbind();*/
+
 	}
 
 };
