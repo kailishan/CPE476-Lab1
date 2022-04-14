@@ -108,9 +108,9 @@ public:
 					continue;
 			}
 		}
-		if (pos.x > 12.5 || pos.x < -12.5)
+		if (pos.x > 10 || pos.x < -10)
 			vel.x = -vel.x;
-		if (pos.z > 12.5 || pos.z < -12.5)
+		if (pos.z > 10 || pos.z < -10)
 			vel.z = -vel.z;	
 		move(ftime);
 	}
@@ -123,7 +123,8 @@ public:
 	glm::vec3 pos, rot;
 	int w, a, s, d;
 	GLFWwindow* window;
-	float rad = 1.0f;
+	float rad = 0.5f;
+	int score = 0;
 
 	camera()
 	{
@@ -137,7 +138,11 @@ public:
 		if (d > rad + other.rad)
 			return false;
 		else if (d <= rad + other.rad && !other.destroying)
+		{
+			score++;
+			cout << "OBJECTS DESTROYED: " << score << endl;
 			return true;
+		}
 		else
 			return false;
 	}
@@ -213,8 +218,8 @@ public:
 			if (mycam.isColliding(objects.at(i)) && !objects.at(i).destroying) // CHECK COLLISION W/ PLAYER
 			{
 				objects.at(i).destroying = true;
-				score++;
-				cout << "OBJECTS DESTROYED: " << score << endl;
+				//score++;
+				//cout << "OBJECTS DESTROYED: " << score << endl;
 			}
 			if (objects.at(i).destroyed) // DESTROY OBJECT
 			{
