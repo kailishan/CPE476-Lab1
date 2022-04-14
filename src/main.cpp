@@ -92,8 +92,9 @@ public:
 		*/
 		glfwGetCursorPos(window, &xpos, &ypos);
 		xpos = xpos * 0.005;
-		rot.y += yangle;
+		ypos = ypos * 0.005;
 		glm::mat4 R = glm::rotate(glm::mat4(1), (float)xpos, glm::vec3(0, 1, 0));
+		glm::mat4 R2 = glm::rotate(glm::mat4(1), (float)ypos, glm::vec3(1, 0, 0));
 		vec4 dir = vec4(0, 0, 0, 1);
 		if (w == 1 || s == 1)
 			dir = glm::vec4(0, 0, speed,1);
@@ -102,7 +103,7 @@ public:
 		dir = dir*R;
 		pos += glm::vec3(dir.x, dir.y, dir.z);
 		glm::mat4 T = glm::translate(glm::mat4(1), pos);
-		return R*T;
+		return R2*R*T;
 	}
 };
 
