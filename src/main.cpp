@@ -157,7 +157,6 @@ public:
 		glm::mat4 T = glm::translate(glm::mat4(1), pos);
 		return R2 * R * T;
 	}
-	
 };
 
 camera mycam;
