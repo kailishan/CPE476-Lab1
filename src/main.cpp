@@ -39,19 +39,24 @@ float distance(float x1, float y1,
 	return d;
 }
 
+
 class gameObject
 {
 public:
 
-	glm::vec3 pos, rot;
-	float rad;
+	glm::vec3 pos, vel;
+	float rad, rot;
 	bool destroying = false;
+	glm::mat4 matrix = mat4(1);
 
 	gameObject()
 	{
-		pos = glm::vec3(rand() % 25 - 12, 0, rand() % 25 - 12);
-		rot = glm::vec3(0, 0, 0);
-		rad = 0.0;
+		//pos = glm::vec3(rand() % 25 - 12, 0, rand() % 25 - 12);
+		pos = glm::vec3(rand() % 50 - 25, 0, rand() % 50 - 2);
+		rot = static_cast <float> (rand()) / static_cast <float> (1); // y-axis
+		vel = vec3(0.01, 0, 0.01); // random x and y velocity
+		//vel = vec3(static_cast <float> (rand()) / static_cast <float> (1) * .5, 0, static_cast <float> (rand()) / static_cast <float> (1) * .5); // random x and y velocity
+		rad = 0.3;
 	}
 
 	bool isColliding(gameObject other) {
@@ -62,88 +67,74 @@ public:
 			return true;
 	}
 
-	void destroy()
+	void destroy(double ftime)
 	{
-
-
+		rad -= 0.01 * ftime;
 	}
 
-	void move()
+	void move(double ftime)
 	{
-
+		glm::mat4 R = glm::rotate(glm::mat4(1), rot, glm::vec3(0, 1, 0));
+		vec4 dir = vec4(vel, 1);
+		dir = dir*R;
+		pos += glm::vec3(dir.x, dir.y, dir.z);
+		//glm::mat4 T = glm::translate(glm::mat4(1), pos);
+		//matrix = R*T;
 	}
 
-	void process()
+	void process(vector <gameObject> others, int index, double ftime)
 	{
 		if (destroying)
-			destroy();
+			destroy(ftime);
 		else
-			move();
+		{
+			/*for (int i = 0; i < others.size(); i++)
+			{
+				if (i == index)
+					continue;
+				if (isColliding(others.at(i)))
+					continue; // collision detection resolution
+			}*/
+			move(ftime);
+		}
 	}
 };
-
-
-class gameManager
-{
-public:
-	int maxObj = 15;
-	int count = 0;
-	int bound = 12.5; // min/max x/y
-	vector <gameObject> objects;
-
-	gameManager()
-	{
-		while (count <= maxObj)
-		{
-			spawnGameObject();
-		}
-		srand(glfwGetTime());
-	}
-
-	void spawnGameObject()
-	{
-		gameObject object = gameObject();
-		objects.push_back(object);
-		count++;
-	}
-
-	void process(double ftime)
-	{
-		for (int i = 0; i < objects.size(); i++)
-		{
-			objects.at(i).process();
-		}
-
-		if (count < 15)
-			spawnGameObject();
-	}
-};
-
-gameManager myManager;
-
 
 class camera
 {
 public:
+
 	glm::vec3 pos, rot;
 	int w, a, s, d;
-	GLFWwindow *window;
+	GLFWwindow* window;
+	float rad = 0.3f;
+
 	camera()
 	{
 		w = a = s = d = 0;
 		pos = rot = glm::vec3(0, 0, 0);
 	}
+
+	bool isColliding(gameObject other)
+	{
+		float d = distance(pos.x, pos.y, pos.z, other.pos.x, other.pos.y, other.pos.z);
+		if (d > rad + other.rad)
+			return false;
+		else
+			return true;
+	}
+
 	glm::mat4 process(double ftime)
 	{
 		float speed = 0;
 		double xpos, ypos;
 		if (w == 1 || a == 1)
 		{
-			speed = 10*ftime;
+			speed = 10 * ftime;
 		}
 		else if (s == 1 || d == 1)
 		{
-			speed = -10*ftime;
+			speed = -10 * ftime;
 		}
 		float yangle = 0;
 		/*if (a == 1)
@@ -158,17 +149,63 @@ public:
 		glm::mat4 R2 = glm::rotate(glm::mat4(1), (float)ypos, glm::vec3(1, 0, 0));
 		vec4 dir = vec4(0, 0, 0, 1);
 		if (w == 1 || s == 1)
-			dir = glm::vec4(0, 0, speed,1);
+			dir = glm::vec4(0, 0, speed, 1);
 		else if (a == 1 || d == 1)
 			dir = glm::vec4(speed, 0, 0, 1);
-		dir = dir*R;
+		dir = dir * R;
 		pos += glm::vec3(dir.x, dir.y, dir.z);
 		glm::mat4 T = glm::translate(glm::mat4(1), pos);
-		return R2*R*T;
+		return R2 * R * T;
 	}
 };
 
 camera mycam;
+
+class gameManager
+{
+public:
+	int maxObj = 15;
+	int count = 0;
+	int bound = 12.5; // min/max x/y
+	int score = 0;
+	vector <gameObject> objects;
+
+	gameManager()
+	{
+		srand(glfwGetTime());
+		while (count <= maxObj)
+		{
+			spawnGameObject();
+		}
+	}
+
+	void spawnGameObject()
+	{
+		gameObject object = gameObject();
+		objects.push_back(object);
+		count++;
+	}
+
+	void process(double ftime)
+	{
+		for (int i = 0; i < objects.size(); i++)
+		{
+			/*if (mycam.isColliding(objects.at(i))) // CHECK COLLISION W/ PLAYER
+			{
+				objects.at(i).destroying = true;
+				score++;
+				cout << "OBJECTS DESTROYED: " + score << endl;
+			}*/
+			objects.at(i).process(objects, i, ftime); // CHECK COLLISION W/ GAME OBJECTS
+
+		}
+
+		if (count < 15)
+			spawnGameObject();
+	}
+};
+
+gameManager myManager;
 
 
 class Application : public EventCallbacks
@@ -516,12 +553,14 @@ public:
 
 		for (int i = 0; i < myManager.objects.size(); i++)
 		{
-			vec3 currPos = myManager.objects.at(i).pos;
-			M = glm::translate(glm::mat4(1.0f), currPos);
+			gameObject currObj = myManager.objects.at(i);
+			vec3 currPos = currObj.pos;
+			S = glm::scale(glm::mat4(1.0f), glm::vec3(currObj.rad));
+			T = glm::translate(glm::mat4(1.0f), currPos);
+			M = S * T; //myManager.objects.at(i).matrix;
 			glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
 			shape->draw(prog, FALSE);
 		}
-
 		//shape->draw(prog,FALSE);
 
 		heightshader->bind();
