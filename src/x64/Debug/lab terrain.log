@@ -1,2 +1,29 @@
-﻿LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
-  lab terrain.vcxproj -> C:\Users\KALE\Documents\471\lab1\x64\Debug\lab terrain.exe
+﻿  glad.c
+  GLSL.cpp
+  main.cpp
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(36,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(79,14): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(83,15): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(229,1): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(425,12): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(428,1): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(459,25): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(460,25): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+  MatrixStack.cpp
+  Program.cpp
+  Shape.cpp
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\Shape.cpp(33,28): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\Shape.cpp(71,37): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  WindowManager.cpp
+  Generating Code...
+  LINK : C:\Users\garre\Desktop\CSC 476\Lab1REAL\x64\Debug\lab terrain.exe not found or not built by the last incremental link; performing full link
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  lab terrain.vcxproj -> C:\Users\garre\Desktop\CSC 476\Lab1REAL\x64\Debug\lab terrain.exe
