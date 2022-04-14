@@ -157,13 +157,6 @@ public:
 		glm::mat4 T = glm::translate(glm::mat4(1), pos);
 		return R2 * R * T;
 	}
-	bool isColliding(gameObject other) {
-		float d = distance(pos.x, pos.y, pos.z, other.pos.x, other.pos.y, other.pos.z);
-		if (d > rad + other.rad)
-			return false;
-		else
-			return true;
-	}
 };
 
 camera mycam;
