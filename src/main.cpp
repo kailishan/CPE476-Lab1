@@ -62,6 +62,8 @@ public:
 	}
 
 	bool isColliding(gameObject other) {
+		if (destroying || other.destroying)
+			return false;
 		float d = distance(pos.x, pos.y, pos.z, other.pos.x, other.pos.y, other.pos.z);
 		if (d > rad + other.rad)
 			return false;
@@ -76,10 +78,12 @@ public:
 
 	void destroy(double ftime)
 	{
-		rad -= 0.0001;
-		if (rad <= 0)
+		rad -= 0.001;
+		if (rad <= -rad)
 		{
 			//destroying = false;
+			vel.x = 0;
+			vel.y = 0;
 			destroyed = true;
 		}
 	}
@@ -96,8 +100,12 @@ public:
 
 	void process(vector <gameObject> others, int index, double ftime)
 	{
-		if (destroying)
+		if (destroyed)
+			return;
+		if (destroying) {
 			destroy(ftime);
+			return;
+		}
 		else
 		{
 			for (int i = 0; i < others.size(); i++)
@@ -123,7 +131,8 @@ public:
 	glm::vec3 pos, rot;
 	int w, a, s, d;
 	GLFWwindow* window;
-	float rad = 0.5f;
+	//float rad = 0.5f;
+	float rad = 1.0f;
 	int score = 0;
 
 	camera()
@@ -221,14 +230,16 @@ public:
 				//score++;
 				//cout << "OBJECTS DESTROYED: " << score << endl;
 			}
+			objects.at(i).process(objects, i, ftime); // CHECK COLLISION W/ GAME OBJECTS
 			if (objects.at(i).destroyed) // DESTROY OBJECT
 			{
 				destroyList.push_back(i);
 			}
-			objects.at(i).process(objects, i, ftime); // CHECK COLLISION W/ GAME OBJECTS
 		}
 		
 		// destroy list
+		if (destroyList.size() == 0)
+			return;
 		for (int i = destroyList.size() - 1; i >= 0; i--)
 		{
 			objects.erase(objects.begin() + i);
