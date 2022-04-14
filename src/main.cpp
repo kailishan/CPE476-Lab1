@@ -52,7 +52,7 @@ public:
 	gameObject()
 	{
 		//pos = glm::vec3(rand() % 25 - 12, 0, rand() % 25 - 12);
-		pos = glm::vec3(rand() % 50 - 25, 0, rand() % 50 - 2);
+		pos = glm::vec3(rand() % 50 - 50, 0, rand() % 50-50);
 		rot = static_cast <float> (rand()) / static_cast <float> (1); // y-axis
 		vel = vec3(0.01, 0, 0.01); // random x and y velocity
 		//vel = vec3(static_cast <float> (rand()) / static_cast <float> (1) * .5, 0, static_cast <float> (rand()) / static_cast <float> (1) * .5); // random x and y velocity
@@ -157,13 +157,7 @@ public:
 		glm::mat4 T = glm::translate(glm::mat4(1), pos);
 		return R2 * R * T;
 	}
-	bool isColliding(gameObject other) {
-		float d = distance(pos.x, pos.y, pos.z, other.pos.x, other.pos.y, other.pos.z);
-		if (d > rad + other.rad)
-			return false;
-		else
-			return true;
-	}
+	
 };
 
 camera mycam;
