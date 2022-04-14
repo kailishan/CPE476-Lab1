@@ -445,7 +445,6 @@ public:
 		glBindTexture(GL_TEXTURE_2D, Texture);
 		shape->draw(prog,FALSE);
 
-		/*
 		heightshader->bind();
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glm::mat4 TransY = glm::translate(glm::mat4(1.0f), glm::vec3(-50.0f, -3.0f, -50));
@@ -470,7 +469,7 @@ public:
 		glDrawElements(GL_TRIANGLES, MESHSIZE*MESHSIZE*6, GL_UNSIGNED_SHORT, (void*)0);
 
 		heightshader->unbind();
-		*/
+
 	}
 
 };
