@@ -55,8 +55,8 @@ public:
 		//pos = glm::vec3(rand() % 25 - 12, 0, rand() % 25 - 12);
 		pos = glm::vec3(-25 + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(25-(-25)))), 0, -25 + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(25-(-25)))));
 		rot = static_cast <float> (rand()) / static_cast <float> (1); // y-axis
-		vel = vec3(0, 0, 0); // random x and y velocity
-		//vel = vec3(static_cast <float> (rand()) / static_cast <float> (1) * 0.00000075, 0, static_cast <float> (rand()) / static_cast <float> (1) * 0.00000075); // random x and y velocity
+		//vel = vec3(0, 0, 0); // random x and y velocity
+		vel = vec3(static_cast <float> (rand()) / static_cast <float> (1) * 0.000001, 0, static_cast <float> (rand()) / static_cast <float> (1) * 0.000001); // random x and y velocity
 		//vel = vec3(static_cast <float> (rand()) / static_cast <float> (1) * 0.00000000075, 0, static_cast <float> (rand()) / static_cast <float> (1) * 0.00000000075); // random x and y velocity
 		rad = 0.3;
 	}
@@ -123,7 +123,7 @@ public:
 	glm::vec3 pos, rot;
 	int w, a, s, d;
 	GLFWwindow* window;
-	float rad = 0.3f;
+	float rad = 1.0f;
 
 	camera()
 	{
@@ -214,7 +214,7 @@ public:
 			{
 				objects.at(i).destroying = true;
 				score++;
-				cout << "OBJECTS DESTROYED: " + score << endl;
+				cout << "OBJECTS DESTROYED: " << score << endl;
 			}
 			if (objects.at(i).destroyed) // DESTROY OBJECT
 			{
@@ -224,7 +224,7 @@ public:
 		}
 		
 		// destroy list
-		for (int i = objects.size() - 1; i >= 0; i--)
+		for (int i = destroyList.size() - 1; i >= 0; i--)
 		{
 			objects.erase(objects.begin() + i);
 			count--;
