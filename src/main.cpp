@@ -55,9 +55,9 @@ public:
 		//pos = glm::vec3(rand() % 25 - 12, 0, rand() % 25 - 12);
 		pos = glm::vec3(-25 + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(25-(-25)))), 0, -25 + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(25-(-25)))));
 		rot = static_cast <float> (rand()) / static_cast <float> (1); // y-axis
-		//vel = vec3(0, 0, 0); // random x and y velocity
+		vel = vec3(0, 0, 0); // random x and y velocity
 		//vel = vec3(static_cast <float> (rand()) / static_cast <float> (1) * 0.00000075, 0, static_cast <float> (rand()) / static_cast <float> (1) * 0.00000075); // random x and y velocity
-		vel = vec3(static_cast <float> (rand()) / static_cast <float> (1) * 0.00000000075, 0, static_cast <float> (rand()) / static_cast <float> (1) * 0.00000000075); // random x and y velocity
+		//vel = vec3(static_cast <float> (rand()) / static_cast <float> (1) * 0.00000000075, 0, static_cast <float> (rand()) / static_cast <float> (1) * 0.00000000075); // random x and y velocity
 		rad = 0.3;
 	}
 
@@ -76,7 +76,7 @@ public:
 
 	void destroy(double ftime)
 	{
-		rad -= 0.001 * ftime;
+		rad -= 0.0001;
 		if (rad <= 0)
 		{
 			//destroying = false;
@@ -230,8 +230,8 @@ public:
 			count--;
 		}
 
-		if (count < 15)
-			spawnGameObject();
+		//if (count < 15)
+		//	spawnGameObject();
 	}
 };
 
