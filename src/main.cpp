@@ -1,6 +1,7 @@
 /*
 CPE/CSC 471 Lab base code Wood/Dunn/Eckhardt
 */
+#define _USE_MATH_DEFINES
 
 #include <iostream>
 #include <glad/glad.h>
@@ -9,6 +10,7 @@ CPE/CSC 471 Lab base code Wood/Dunn/Eckhardt
 #include "GLSL.h"
 #include "Program.h"
 #include "MatrixStack.h"
+#include "math.h"
 
 #include "WindowManager.h"
 #include "Shape.h"
@@ -58,11 +60,17 @@ public:
 		//vel = vec3(0, 0, 0); // random x and y velocity
 		vel = vec3(static_cast <float> (rand()) / static_cast <float> (1) * 0.000001, 0, static_cast <float> (rand()) / static_cast <float> (1) * 0.000001); // random x and y velocity
 		//vel = vec3(static_cast <float> (rand()) / static_cast <float> (1) * 0.00000000075, 0, static_cast <float> (rand()) / static_cast <float> (1) * 0.00000000075); // random x and y velocity
+		vec3 posDirection = glm::normalize(pos);
+		vec3 velDirection = glm::normalize(vel);
+		float angle = acos(glm::dot(posDirection, velDirection));
+
+
 		rad = 1.0;
 		cout << "x: " << pos.x << " z: " << pos.z << endl;
 	}
 
-	bool isColliding(gameObject other) {
+	bool isColliding(gameObject other)
+	{
 		if (destroying || other.destroying)
 			return false;
 		float d = distance(pos.x, pos.y, pos.z, other.pos.x, other.pos.y, other.pos.z);
@@ -90,21 +98,37 @@ public:
 	}
 
 	void move(double ftime)
-	{
-		if (pos.x > 6.75 && vel.x > 0)
+	{	
+		/*
+		if (pos.x > 12.5 && vel.x > 0)
 			vel.x = -vel.x;
-		if (pos.x < -6.75 && vel.x < 0)
+		if (pos.x < -12.5 && vel.x < 0)
 			vel.x = -vel.x;
-		if (pos.z > 6.75 && vel.z > 0)
+		if (pos.z > 12.5 && vel.z > 0)
 			vel.z = -vel.z;
-		if (pos.z < -6.75 && vel.z < 0)
+		if (pos.z < -12.5 && vel.z < 0)
 			vel.z = -vel.z;
+			*/
 		glm::mat4 R = glm::rotate(glm::mat4(1), rot, glm::vec3(0, 1, 0));
 		vec4 dir = vec4(vel, 1);
 		dir = dir*R;
 		pos += glm::vec3(dir.x, dir.y, dir.z);
+
+		if (pos.x + dir.x > 12.5 || pos.x + dir.x < -12.5) {
+			pos = pos;
+			rot += M_PI;
+			vel.x = -vel.x;
+		}
+		else if (pos.z + dir.z > 12.5 || pos.z + dir.z < -12.5) {
+			pos = pos;
+			rot += M_PI; 
+			vel.z = -vel.z;
+		}
+		else
+			pos += glm::vec3(dir.x, dir.y, dir.z);
+
 		glm::mat4 T = glm::translate(glm::mat4(1), pos);
-		matrix = T*R;
+		matrix = R*T;
 	}
 
 	void process(vector <gameObject> others, int index, double ftime)
@@ -437,7 +461,7 @@ public:
 		// Initialize mesh.
 		shape = make_shared<Shape>();
 		//shape->loadMesh(resourceDirectory + "/t800.obj");
-		shape->loadMesh(resourceDirectory + "/sphere.obj");
+		shape->loadMesh(resourceDirectory + "/Cat_Low.obj");
 		shape->resize();
 		shape->init();
 
@@ -630,7 +654,7 @@ public:
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		//glm::mat4 TransY = glm::translate(glm::mat4(1.0f), glm::vec3(-50.0f, -3.0f, -50));
 		//M = TransY;
-		M = glm::translate(glm::mat4(1.0f), glm::vec3(-12.5f, -3.0f, -12.5f));
+		M = glm::translate(glm::mat4(1.0f), glm::vec3(-12.5f, -0.75f, -12.5f));
 		glUniformMatrix4fv(heightshader->getUniform("M"), 1, GL_FALSE, &M[0][0]);
 		glUniformMatrix4fv(heightshader->getUniform("P"), 1, GL_FALSE, &P[0][0]);
 		glUniformMatrix4fv(heightshader->getUniform("V"), 1, GL_FALSE, &V[0][0]);
