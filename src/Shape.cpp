@@ -1,5 +1,8 @@
+#define NOMINMAX
+
 #include "Shape.h"
 #include <iostream>
+#include <math.h>
 
 #include "GLSL.h"
 #include "Program.h"
@@ -90,6 +93,42 @@ void Shape::loadMesh(const string &meshName, string *mtlpath, unsigned char *(lo
 
 	int z;
 	z = 0;
+}
+
+void Shape::measure()
+{
+    float minX, minY, minZ;
+    float maxX, maxY, maxZ;
+
+    minX = minY = minZ = std::numeric_limits<float>::max();
+    maxX = maxY = maxZ = -std::numeric_limits<float>::max();
+
+    // Go through all vertices to determine min and max of each dimension
+	for (int i = 0; i < obj_count; i++) {
+        for (size_t v = 0; v < posBuf[i].size() / 3; v++) {
+            if (posBuf[i][3 * v + 0] < minX)
+                minX = posBuf[i][3 * v + 0];
+            if (posBuf[i][3 * v + 0] > maxX)
+                maxX = posBuf[i][3 * v + 0];
+
+            if (posBuf[i][3 * v + 1] < minY)
+                minY = posBuf[i][3 * v + 1];
+            if (posBuf[i][3 * v + 1] > maxY)
+                maxY = posBuf[i][3 * v + 1];
+
+            if (posBuf[i][3 * v + 2] < minZ)
+                minZ = posBuf[i][3 * v + 2];
+            if (posBuf[i][3 * v + 2] > maxZ)
+                maxZ = posBuf[i][3 * v + 2];
+        }
+	}
+
+    min.x = minX;
+    min.y = minY;
+    min.z = minZ;
+    max.x = maxX;
+    max.y = maxY;
+    max.z = maxZ;
 }
 
 void Shape::resize()

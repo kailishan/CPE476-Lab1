@@ -41,6 +41,15 @@ float distance(float x1, float y1,
 	return d;
 }
 
+glm::vec3 midpoint(shared_ptr<Shape> shape)
+{
+    glm::vec3 midpoint;
+    midpoint.x = (shape->min.x + shape->max.x) / 2;
+    midpoint.y = (shape->min.y + shape->max.y) / 2;
+    midpoint.z = (shape->min.z + shape->max.z) / 2;
+
+    return midpoint;
+}
 
 class gameObject
 {
@@ -63,7 +72,6 @@ public:
 		vec3 posDirection = glm::normalize(pos);
 		vec3 velDirection = glm::normalize(vel);
 		float angle = acos(glm::dot(posDirection, velDirection));
-
 
 		rad = 1.0;
 		cout << "x: " << pos.x << " z: " << pos.z << endl;
@@ -149,6 +157,25 @@ public:
 		}
 		move(ftime);
 	}
+
+	glm::mat4 formRotationMatrix(gameObject obj, float frametime)
+    {
+        glm::vec3 dogMid = midpoint(shape);
+        glm::vec3 curPos = obj.pos;
+
+        glm::vec3 dest = curPos + obj.vel * frametime;
+
+        // vector in direction to look at
+        glm::vec3 forward = glm::normalize(dest - curPos);
+        glm::vec3 left = glm::normalize(glm::cross(vec3(0, 1, 0), forward));
+        glm::vec3 up = glm::cross(forward, left);
+        // dog originally points forward, e.g. in +z direction
+        // need to rotate dog to align with forward...
+        glm::mat4 rot = glm::mat4(vec4(left.x, left.y, left.z, 0), vec4(0, 1, 0, 0),
+            vec4(forward.x, forward.y, forward.z, 0), vec4(0, 0, 0, 1));
+
+        return rot;
+    }
 };
 
 class camera

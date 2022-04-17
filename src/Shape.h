@@ -10,8 +10,7 @@
 #include <vector>
 #include <memory>
 
-
-
+#include <glm/gtc/type_ptr.hpp>
 
 
 
@@ -24,9 +23,14 @@ public:
 	//stbi_load(char const *filename, int *x, int *y, int *comp, int req_comp)
 	void loadMesh(const std::string &meshName, std::string *mtlName = NULL, unsigned char *(loadimage)(char const *, int *, int *, int *, int) = NULL);
 	void init();
+    void measure();
 	void resize();
 	void draw(const std::shared_ptr<Program> prog, bool use_extern_texures) const;
 	unsigned int *textureIDs = NULL;
+
+	glm::vec3 min = glm::vec3(0);
+    glm::vec3 max = glm::vec3(0);
+
 
 
 private:
