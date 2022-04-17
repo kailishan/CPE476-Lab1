@@ -73,7 +73,7 @@ public:
 		vec3 velDirection = glm::normalize(vel);
 		float angle = acos(glm::dot(posDirection, velDirection));
 
-		rad = 1.0;
+		rad = .3;
 		cout << "x: " << pos.x << " z: " << pos.z << endl;
 	}
 
@@ -670,7 +670,7 @@ public:
 			S = glm::scale(glm::mat4(1.0f), glm::vec3(currObj.rad));
 			T = glm::translate(glm::mat4(1.0f), currPos);
 			glm::mat4 R = glm::rotate(glm::mat4(1), currObj.rot, glm::vec3(0, 1, 0));
-			M = myManager.objects.at(i).matrix * S;
+			M = myManager.objects.at(i).matrix;
 			glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
 			shape->draw(prog, FALSE);
 		}
