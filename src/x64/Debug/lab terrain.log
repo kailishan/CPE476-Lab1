@@ -2,18 +2,13 @@
 C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(38,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(77,1): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(99,1): warning C4305: '-=': truncation from 'double' to 'float'
-C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(121,28): warning C4244: '=': conversion from 'genType' to 'float', possible loss of data
-          with
-          [
-              genType=double
-          ]
-C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(221,15): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(225,16): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(265,14): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(272,20): warning C4244: 'argument': conversion from 'double' to 'unsigned int', possible loss of data
-C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(308,1): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(446,1): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(643,12): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(646,1): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(222,15): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(226,16): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(266,14): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(273,20): warning C4244: 'argument': conversion from 'double' to 'unsigned int', possible loss of data
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(309,1): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(447,1): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(644,12): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\garre\Desktop\CSC 476\Lab1REAL\src\main.cpp(647,1): warning C4305: 'initializing': truncation from 'double' to 'float'
 LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
   lab terrain.vcxproj -> C:\Users\garre\Desktop\CSC 476\Lab1REAL\x64\Debug\lab terrain.exe

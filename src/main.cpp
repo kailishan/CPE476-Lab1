@@ -67,7 +67,7 @@ public:
 		pos = glm::vec3((rand() % 25) -12, 0, (rand() % 25) - 12);
 		//rot = glm::radians((float)(rand() % 361)); // y-axis
 		//vel = vec3(0, 0, 0); // random x and y velocity
-		vel = vec3(0.01f, 0.0f, 0.01f);
+		vel = vec3(0.05f, 0.0f, 0.05f);
 		rot = tan(vel.z / vel.x);
 		//vel = vec3(static_cast <float> (rand()) / static_cast <float> (1) * 0.00000000075, 0, static_cast <float> (rand()) / static_cast <float> (1) * 0.00000000075); // random x and y velocity
 		vec3 posDirection = glm::normalize(pos);
@@ -118,10 +118,12 @@ public:
 		if (pos.z < -12.5 && vel.z < 0)
 			vel.z = -vel.z;
 			*/
-		rot = sin(vel.z / vel.x);
+		/*rot = atan(vel.z / vel.x);
+		if (vel.z < 0)
+			rot += radians(180.f);
+		*/
 		glm::mat4 R = glm::rotate(glm::mat4(1), rot, glm::vec3(0.0f, 1.0f, 0.0f));
 		vec4 dir = vec4(vel, 1);
-		pos += glm::vec3(dir.x, dir.y, dir.z);
 
 		if (pos.x + dir.x > 12.5 || pos.x + dir.x < -12.5) {
 			pos = pos;
@@ -270,7 +272,7 @@ public:
 	gameManager()
 	{
 		srand(glfwGetTime());
-		while (count <= 0)
+		while (count <= 14)
 		{
 			spawnGameObject();
 		}
