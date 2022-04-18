@@ -118,10 +118,10 @@ public:
 		if (pos.z < -12.5 && vel.z < 0)
 			vel.z = -vel.z;
 			*/
-		/*rot = atan(vel.z / vel.x);
+		rot = atan(vel.z / vel.x);
 		if (vel.z < 0)
 			rot += radians(180.f);
-		*/
+		
 		glm::mat4 R = glm::rotate(glm::mat4(1), rot, glm::vec3(0.0f, 1.0f, 0.0f));
 		vec4 dir = vec4(vel, 1);
 
