@@ -120,6 +120,7 @@ public:
 			*/
 		rot = sin(vel.z / vel.x);
 		glm::mat4 R = glm::rotate(glm::mat4(1), rot, glm::vec3(0.0f, 1.0f, 0.0f));
+		R = formRotationMatrix(ftime);
 		vec4 dir = vec4(vel, 1);
 		pos += glm::vec3(dir.x, dir.y, dir.z);
 
@@ -159,12 +160,12 @@ public:
 		move(ftime);
 	}
 
-	glm::mat4 formRotationMatrix(gameObject obj, float frametime)
+	glm::mat4 formRotationMatrix(float frametime)
     {
         glm::vec3 dogMid = midpoint(shape);
-        glm::vec3 curPos = obj.pos;
+        glm::vec3 curPos = pos;
 
-        glm::vec3 dest = curPos + obj.vel * frametime;
+        glm::vec3 dest = curPos + vel * frametime;
 
         // vector in direction to look at
         glm::vec3 forward = glm::normalize(dest - curPos);
