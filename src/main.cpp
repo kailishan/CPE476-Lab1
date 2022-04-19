@@ -64,17 +64,18 @@ public:
 	gameObject()
 	{
 		//pos = glm::vec3(rand() % 25 - 12, 0, rand() % 25 - 12);
-		pos = glm::vec3((rand() % 25) -12, 0, (rand() % 25) - 12);
+		pos = glm::vec3((rand() % 25) -12, 0.35, (rand() % 25) - 12);
 		//rot = glm::radians((float)(rand() % 361)); // y-axis
 		//vel = vec3(0, 0, 0); // random x and y velocity
-		vel = vec3(0.01f, 0.0f, 0.01f);
+		float velocities[] = { 0.05f, 0.025f, 0.0125f, -0.0125f, -0.025f, -0.05f };
+		vel = vec3(velocities[rand() % 6], 0.0f, velocities[rand() % 6]);
 		rot = tan(vel.z / vel.x);
 		//vel = vec3(static_cast <float> (rand()) / static_cast <float> (1) * 0.00000000075, 0, static_cast <float> (rand()) / static_cast <float> (1) * 0.00000000075); // random x and y velocity
 		vec3 posDirection = glm::normalize(pos);
 		vec3 velDirection = glm::normalize(vel);
 		float angle = acos(glm::dot(posDirection, velDirection));
 
-		rad = .3;
+		rad = .5;
 		cout << "x: " << pos.x << " z: " << pos.z << endl;
 	}
 
@@ -102,6 +103,7 @@ public:
 		if (rad <= 0)
 		{
 			//destroying = false;
+			//cout << "(CAT) x:" << pos.x << " z: " << pos.z << endl;
 			destroyed = true;
 		}
 	}
@@ -118,11 +120,13 @@ public:
 		if (pos.z < -12.5 && vel.z < 0)
 			vel.z = -vel.z;
 			*/
-		rot = sin(vel.z / vel.x);
+		rot = atan(vel.z / vel.x);
+		if (vel.z < 0)
+			rot += radians(180.f);
+		
 		glm::mat4 R = glm::rotate(glm::mat4(1), rot, glm::vec3(0.0f, 1.0f, 0.0f));
 		R = formRotationMatrix(ftime);
 		vec4 dir = vec4(vel, 1);
-		pos += glm::vec3(dir.x, dir.y, dir.z);
 
 		if (pos.x + dir.x > 12.5 || pos.x + dir.x < -12.5) {
 			pos = pos;
@@ -185,26 +189,28 @@ class camera
 public:
 
 	glm::vec3 pos, rot;
-	int w, a, s, d;
+	int w, a, s, d, p;
 	GLFWwindow* window;
-	float rad = 1.0f;
+	float rad = 0.8f;
 	int score = 0;
 
 	camera()
 	{
-		w = a = s = d = 0;
-		pos = rot = glm::vec3(0, 0, 0);
+		w = a = s = d = p = 0;
+		pos = glm::vec3(0, -1, 0);
+		rot = glm::vec3(0, 0, 0);
 	}
 
 	bool isColliding(gameObject other)
 	{
-		float d = distance(pos.x, pos.y, pos.z, other.pos.x, other.pos.y, other.pos.z);
+		float d = distance(-pos.x, -pos.y, -pos.z, other.pos.x, other.pos.y, other.pos.z);
 		if (d > rad + other.rad)
 			return false;
 		else if (d <= rad + other.rad && !other.destroying)
 		{
 			score++;
-			cout << "OBJECTS DESTROYED: " << score << endl;
+			cout << "CATS BOOPED: " << score << endl;
+			//cout << "(CAM) " << "x: " << pos.x << " z: " << pos.z << endl;
 			other.destroying = true;
 			return true;
 		}
@@ -214,16 +220,21 @@ public:
 
 	glm::mat4 process(double ftime)
 	{
+		if (p == 1)
+		{
+			//cout << "(CAM) " << "x: " << pos.x << " z: " << pos.z << endl;
+			p = 0;
+		}
 		float speed = 0;
 		double xpos, ypos;
 
 		if (w == 1 || a == 1)
 		{
-			speed = 10 * ftime;
+			speed = 6 * ftime;
 		}
 		else if (s == 1 || d == 1)
 		{
-			speed = -10 * ftime;
+			speed = -6 * ftime;
 		}
 		float yangle = 0;
 
@@ -248,7 +259,7 @@ public:
 		else
 			pos += glm::vec3(dir.x, dir.y, dir.z);
 
-		cout << "x: " << pos.x << " z: " << pos.z << endl;
+		//cout << "x: " << pos.x << " z: " << pos.z << endl;
 		glm::mat4 T = glm::translate(glm::mat4(1), pos);
 
 		return R2 * R * T;
@@ -271,7 +282,7 @@ public:
 	gameManager()
 	{
 		srand(glfwGetTime());
-		while (count <= 0)
+		while (count <= 14)
 		{
 			spawnGameObject();
 		}
@@ -292,6 +303,8 @@ public:
 			if (mycam.isColliding(objects.at(i)) && !objects.at(i).destroying) // CHECK COLLISION W/ PLAYER
 			{
 				objects.at(i).destroying = true;
+				count--;
+				cout << "CATS REMAINING: " << count << endl;
 				//score++;
 				//cout << "OBJECTS DESTROYED: " << score << endl;
 			}
@@ -302,7 +315,16 @@ public:
 					destroyList.push_back(i);
 			}
 		}
-		
+
+		framecount++;
+		if (count < 10 && framecount > 300)
+		{
+			count++;
+			cout << "CATS REMAINING: " << count << endl;
+			framecount = 0;
+			spawnGameObject();
+		}
+
 		// destroy list
 		if (destroyList.size() == 0)
 			return;
@@ -312,10 +334,6 @@ public:
 			count--;
 		}
 
-		framecount++;
-		if (count < 15 && framecount > 300)
-			framecount = 0;
-			spawnGameObject();
 	}
 };
 
@@ -380,6 +398,10 @@ public:
 		if (key == GLFW_KEY_D && action == GLFW_RELEASE)
 		{
 			mycam.d = 0;
+		}
+		if (key == GLFW_KEY_P && action == GLFW_PRESS)
+		{
+			mycam.p = 1;
 		}
 	}
 
@@ -672,7 +694,7 @@ public:
 			S = glm::scale(glm::mat4(1.0f), glm::vec3(currObj.rad));
 			T = glm::translate(glm::mat4(1.0f), currPos);
 			glm::mat4 R = glm::rotate(glm::mat4(1), currObj.rot, glm::vec3(0, 1, 0));
-			M = myManager.objects.at(i).matrix;
+			M = myManager.objects.at(i).matrix * S;
 			glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
 			shape->draw(prog, FALSE);
 		}
@@ -682,7 +704,7 @@ public:
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		//glm::mat4 TransY = glm::translate(glm::mat4(1.0f), glm::vec3(-50.0f, -3.0f, -50));
 		//M = TransY;
-		M = glm::translate(glm::mat4(1.0f), glm::vec3(-12.5f, -0.75f, -12.5f));
+		M = glm::translate(glm::mat4(1.0f), glm::vec3(-12.5f, 0.0f, -12.5f));
 		glUniformMatrix4fv(heightshader->getUniform("M"), 1, GL_FALSE, &M[0][0]);
 		glUniformMatrix4fv(heightshader->getUniform("P"), 1, GL_FALSE, &P[0][0]);
 		glUniformMatrix4fv(heightshader->getUniform("V"), 1, GL_FALSE, &V[0][0]);
