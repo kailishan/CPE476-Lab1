@@ -348,7 +348,7 @@ public:
 	WindowManager * windowManager = nullptr;
 
 	// Our shader program
-	std::shared_ptr<Program> prog, heightshader;
+	std::shared_ptr<Program> prog, progL, heightshader;
 
 	// Contains vertex information for OpenGL
 	GLuint VertexArrayID;
@@ -608,6 +608,23 @@ public:
 		prog->addAttribute("vertNor");
 		prog->addAttribute("vertTex");
 
+		progL = std::make_shared<Program>();
+		progL->setVerbose(true);
+		progL->setShaderNames(resourceDirectory + "/shader_vertex_light.glsl", resourceDirectory + "/shader_fragment_light.glsl");
+		if (!progL->init())
+		{
+			std::cerr << "One or more shaders failed to compile... exiting!" << std::endl;
+			exit(1);
+		}
+		progL->addUniform("P");
+		progL->addUniform("V");
+		progL->addUniform("M");
+		progL->addUniform("campos");
+		progL->addUniform("objColor");
+		progL->addAttribute("vertPos");
+		progL->addAttribute("vertColor");
+		progL->addAttribute("vertNor");
+
 		// Initialize the GLSL program.
 		heightshader = std::make_shared<Program>();
 		heightshader->setVerbose(true);
@@ -676,16 +693,19 @@ public:
 		M = S * T;
 
 		// Draw the box using GLSL.
-		prog->bind();
+		progL->bind();
 
 		V = mycam.process(frametime);
 		//send the matrices to the shaders
-		glUniformMatrix4fv(prog->getUniform("P"), 1, GL_FALSE, &P[0][0]);
-		glUniformMatrix4fv(prog->getUniform("V"), 1, GL_FALSE, &V[0][0]);
-		glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
-		glUniform3fv(prog->getUniform("campos"), 1, &mycam.pos[0]);
+		glUniformMatrix4fv(progL->getUniform("P"), 1, GL_FALSE, &P[0][0]);
+		glUniformMatrix4fv(progL->getUniform("V"), 1, GL_FALSE, &V[0][0]);
+		glUniformMatrix4fv(progL->getUniform("M"), 1, GL_FALSE, &M[0][0]);
+		glUniform3fv(progL->getUniform("campos"), 1, &mycam.pos[0]);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, Texture);
+
+		glm::vec4 pink = glm::vec4(1.0, 0.357, 0.796, 1);
+		glUniform4fv(progL->getUniform("objColor"), 1, &pink[0]);
 
 		for (int i = 0; i < myManager.objects.size(); i++)
 		{
@@ -695,8 +715,8 @@ public:
 			T = glm::translate(glm::mat4(1.0f), currPos);
 			glm::mat4 R = glm::rotate(glm::mat4(1), currObj.rot, glm::vec3(0, 1, 0));
 			M = myManager.objects.at(i).matrix * S;
-			glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, &M[0][0]);
-			shape->draw(prog, FALSE);
+			glUniformMatrix4fv(progL->getUniform("M"), 1, GL_FALSE, &M[0][0]);
+			shape->draw(progL, FALSE);
 		}
 		//shape->draw(prog,FALSE);
 
