@@ -316,14 +316,6 @@ public:
 			}
 		}
 
-		framecount++;
-		if (count < 10 && framecount > 300)
-		{
-			count++;
-			cout << "CATS REMAINING: " << count << endl;
-			framecount = 0;
-			spawnGameObject();
-		}
 
 		// destroy list
 		if (destroyList.size() == 0)
@@ -332,6 +324,15 @@ public:
 		{
 			objects.erase(objects.begin() + i);
 			count--;
+		}
+
+		framecount++;
+		if (count < 10 && framecount > 300)
+		{
+			count++;
+			cout << "CATS REMAINING: " << count << endl;
+			framecount = 0;
+			spawnGameObject();
 		}
 
 	}
@@ -624,6 +625,7 @@ public:
 		progL->addAttribute("vertPos");
 		progL->addAttribute("vertColor");
 		progL->addAttribute("vertNor");
+		progL->addAttribute("vertTex");
 
 		// Initialize the GLSL program.
 		heightshader = std::make_shared<Program>();
@@ -716,7 +718,7 @@ public:
 			glm::mat4 R = glm::rotate(glm::mat4(1), currObj.rot, glm::vec3(0, 1, 0));
 			M = myManager.objects.at(i).matrix * S;
 			glUniformMatrix4fv(progL->getUniform("M"), 1, GL_FALSE, &M[0][0]);
-			shape->draw(progL, FALSE);
+			shape->draw(progL, false);
 		}
 		//shape->draw(prog,FALSE);
 
